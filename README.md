@@ -1,4 +1,4 @@
-# Docker Compose Repository README
+# Docker Compose Project
 ## architecture diagram
 ![](https://github.com/ashnike/spring_compose/blob/main/new.GIF)
 
