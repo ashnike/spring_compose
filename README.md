@@ -1,5 +1,5 @@
 # Docker Compose Project
-## architecture diagram
+## Architecture diagram
 ![](https://github.com/ashnike/spring_compose/blob/main/new.GIF)
 
 This repository contains a Docker Compose setup for a Java web application along with a MySQL database and Nginx web server. The structure of the repository is organized as follows:
@@ -25,7 +25,7 @@ To run the entire application stack using Docker Compose, follow these steps:
 
 2. Clone this repository to your local machine:
 ```
-   git clone <repository_url>
+   git clone https://github.com/ashnike/spring_compose.git
 ```
 3. Run the following command to build and start the Docker containers:
 ```
