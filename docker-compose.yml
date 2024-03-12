@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  jappdb:
+    container_name: jappdb
+    build:
+      context: ./docker/db
+    ports:
+      - "3306:3306"
+    volumes:
+      - jappdb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ashpi123
+      - MYSQL_DATABASE=accounts
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin123
+
+  jappweb:
+    container_name: jappweb
+    build:
+      context: ./docker/web
+    ports:
+      - "80:80"
+    depends_on:
+      - jappdb
+      - japp
+      - jcache1
+      - jrmq1
+      - jesearch1
+
+  jcache1:
+    container_name: jcache1
+    image: memcached
+    ports:
+      - "11211:11211"
+
+  jesearch1:
+    container_name: jesearch1
+    image: elasticsearch:7.17.18
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+      - cluster.initial_master_nodes=jnode
+      - cluster.name=jcluster
+      - node.name=jnode
+      - xpack.security.enabled=false
+    volumes:
+      - jesdata:/var/lib/elasticsearch 
+
+  jrmq1:
+    container_name: jrmq1
+    image: rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  japp:
+    container_name: japp
+    build:
+      context: ./docker/app
+    ports:
+      - "8080:8080"
+    volumes: 
+      - jappdata:/usr/local/tomcat/webapps
+
+volumes:
+  jappdb: {}
+  jappdata: {}
+  jesdata: {}
